@@ -38,14 +38,13 @@ void draw(){
   stroke(0);
   fill(255);
   
-  //millis();
+
   float xPoint = x*width;
   float yPoint = (1-y)*height;
   float triSize = 15;
   
   translate(xPoint+(triSize/2),yPoint-(triSize/2));
-  rotate(millis()/1000.0*2*PI*x*5);
-  //triangle(xPoint, yPoint,xPoint+triSize,yPoint,xPoint+(triSize/2),yPoint-triSize);
+  rotate(millis()/1000.0*2*PI*x*5);   //millis() für zeit
   triangle(triSize*-0.5, triSize*0.5, triSize*0.5, triSize*0.5, 0, -sqrt(0.5)*triSize);
 }
 
@@ -65,7 +64,7 @@ void sendOscMsg(){
 }
 
 
-
+//Hier kommen alle OSC-Nachrichten an
 void oscEvent(OscMessage theOscMessage){
 
   //theOscMessage.print();
