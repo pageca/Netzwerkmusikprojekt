@@ -9,6 +9,9 @@ let rotToMouse =0;
 
 let polyVertexes = [];
 
+let debugText = ['hi'];
+let mouseInCanvas;
+
 let node;
 let junction;
 
@@ -60,6 +63,10 @@ function setup() {
   sendButton.position(900,800);
   sendButton.mousePressed(sendOut);
 
+  resetButton = createButton('Reset');
+  resetButton.position(980,800);
+  resetButton.mousePressed(reset);
+
   noLoop();
 }
 
@@ -74,25 +81,30 @@ function draw() {
 
   maxSize = 100;
 
+  text(debugText,100,50);
+
 
 
   if (drawMode.value() == 1) {
 
     print("lol",drawMode.value());
-    if (mouseX > originPosX + maxSize) {
-      secondPosX = originPosX + maxSize;
-    } else if (mouseX < originPosX - maxSize) {
-      secondPosX = originPosX - maxSize;
-    } else {
-      secondPosX = mouseX;
-    }
 
-    if (mouseY > originPosY + maxSize) {
-      secondPosY = originPosY + maxSize;
-    } else if (mouseY < originPosY - maxSize) {
-      secondPosY = originPosY - maxSize;
-    } else {
-      secondPosY = mouseY;
+    if (mouseInCanvas) {
+      if (mouseX > originPosX + maxSize) {
+        secondPosX = originPosX + maxSize;
+      } else if (mouseX < originPosX - maxSize) {
+        secondPosX = originPosX - maxSize;
+      } else {
+        secondPosX = mouseX;
+      }
+
+      if (mouseY > originPosY + maxSize) {
+        secondPosY = originPosY + maxSize;
+      } else if (mouseY < originPosY - maxSize) {
+        secondPosY = originPosY - maxSize;
+      } else {
+        secondPosY = mouseY;
+      }
     }
 
     if (shapeType.value() == "ellipse") {
@@ -120,11 +132,12 @@ function draw() {
       
       let centerPointX = originPosX+(secondPosX-originPosX)/2;
       let centerPointY = originPosY+(secondPosY-originPosY)/2;
-        
-      rotToMouse = atan2(mouseY - centerPointY, mouseX - centerPointX);
-      if(rotStart){
-        rotation = rotToMouse-rotation;
-        rotStart = false;
+      if(mouseInCanvas){
+        rotToMouse = atan2(mouseY - centerPointY, mouseX - centerPointX);
+        if(rotStart){
+          rotation = rotToMouse-rotation;
+          rotStart = false;
+        }
       }
       
       translate(centerPointX,centerPointY);
@@ -138,13 +151,13 @@ function draw() {
       
       let centerPointX = originPosX+(secondPosX-originPosX)/2;
       let centerPointY = originPosY+(secondPosY-originPosY)/2;
-          
-      rotToMouse = atan2(mouseY - centerPointY, mouseX - centerPointX);
-      if(rotStart){
-        rotation = rotToMouse-rotation;
-        rotStart = false;
+      if(mouseInCanvas){    
+        rotToMouse = atan2(mouseY - centerPointY, mouseX - centerPointX);
+        if(rotStart){
+          rotation = rotToMouse-rotation;
+          rotStart = false;
+        }
       }
-      
       translate(centerPointX,centerPointY);
       //rotate(mouseX/width*2*PI);
       rotate(rotToMouse-rotation);
@@ -176,13 +189,13 @@ function draw() {
       let centerPointX = left+(right-left)/2;
       let centerPointY = top+(bottom-top)/2;
     
-      
-      rotToMouse = atan2(mouseY - centerPointY, mouseX - centerPointX);
-      if(rotStart){
-        rotation = rotToMouse-rotation;
-        rotStart = false;
+      if(mouseInCanvas){
+        rotToMouse = atan2(mouseY - centerPointY, mouseX - centerPointX);
+        if(rotStart){
+          rotation = rotToMouse-rotation;
+          rotStart = false;
+        }
       }
-      
       translate(centerPointX,centerPointY);
       //rotate(mouseX/width*2*PI);
       rotate(rotToMouse-rotation);
@@ -205,7 +218,12 @@ function draw() {
 
 
 function mousePressed() {
-  if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
+  if((mouseX > 0) && (mouseX < width )&& (mouseY > 0) && (mouseY < height)){
+    mouseInCanvas = true;
+  }else
+    mouseInCanvas = false;
+
+  if  (mouseInCanvas){
     if (shapeType.value() == "polygon" && drawMode.value() == 1) {
       polyVertexes.push([mouseX, mouseY]);
 
@@ -223,6 +241,9 @@ function mousePressed() {
     redraw();
   }
 
+  //debugText = [mouseX,mouseY,'  ', width,height];
+  redraw();
+
 }
 
 function mouseDragged() {
@@ -232,22 +253,24 @@ function mouseDragged() {
 
 
 function mouseReleased(){
-
-  rotation = rotToMouse-rotation;
-
+  if(mouseInCanvas){
+    rotation = rotToMouse-rotation;
+  }
 }
 
 
 
 function sendOut(){
 
-  if(junction !== undefined && junction.connected) {
-    let invertMode;
+  let invertMode;
 
-    if(farbMode.checked())
-      invertMode=1;
-    else
-      invertMode=0;
+  if(farbMode.checked())
+    invertMode=1;
+  else
+    invertMode=0;
+
+  if(junction !== undefined && junction.connected) {
+
     
     if(shapeType.value()=='rectangle')
       junction.send("/rect", [originPosX,originPosY,secondPosX,secondPosY,rotation,invertMode,red(colorPicker.value()),green(colorPicker.value()),blue(colorPicker.value())]);
@@ -262,19 +285,32 @@ function sendOut(){
       }
       junction.send("/poly",args);
 
+    }
   }
 
+  //debugText = [originPosX,originPosY,secondPosX,secondPosY,rotation,invertMode,red(colorPicker.value()),green(colorPicker.value()),blue(colorPicker.value())];
+  debugText = [originPosX,originPosY,secondPosX,secondPosY,rotation,invertMode];
+  reset();
 
+}
 
+function reset(){
 
+  polyVertexes = [];
+  rotation=0;
 
-  }
+  redraw();
+
 
 }
 
 
 
 /*ToDo
+
+rotation ändert sich beim klicken außerhalb canvas
+
+
 
 triangle vllt irgendwann, nicht wichtig
 
