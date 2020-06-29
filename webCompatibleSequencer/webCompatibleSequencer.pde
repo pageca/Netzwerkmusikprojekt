@@ -1,5 +1,11 @@
 import oscP5.*;
 import netP5.*;
+import codeanticode.syphon.*;
+import com.jogamp.opengl.*;
+com.jogamp.opengl.GL3 gl;
+
+SyphonServer server;
+
 
 OscP5 oscP5;
 NetAddress superCollider;
@@ -25,14 +31,16 @@ void settings() {
   oscP5 = new OscP5(this, 12000);
   superCollider = new NetAddress("127.0.0.1", 57120);
   oscJunction = new NetAddress("127.0.0.1", 57140);
-  size(800, 400);
+  size(800, 400, P3D);
 }
 
 void setup() {
+  gl = GLContext.getCurrentGL().getGL3();
 
   XBlockSize = width/num_XBlocks;
   YBlockSize = height/num_YBlocks;
   
+  server = new SyphonServer(this, "Processing Syphon");
   noStroke();
 
   loadPixels();
@@ -45,9 +53,12 @@ void setup() {
 
   image = new color[width*height];
   arrayCopy(pixels, image);
+  
+  
 }
 
 void draw() {
+  server.sendScreen();
 
 
   loadPixels();  
@@ -61,18 +72,24 @@ void draw() {
   for(int i=0;i<pgs.size();i++){
     
     if(blendModes.get(i)==0)
+      //blend(background, 0, 0, width, height, 0,0, width, height, BLEND);
       blendMode(BLEND);
     else
+      //blend(background, 0, 0, width, height, 0,0, width, height, DIFFERENCE);
       blendMode(DIFFERENCE);
         
     image(pgs.get(i),0,0);
   }
-  
+ 
   pgs.clear();
+
   blendModes.clear();
   
   loadPixels();
   arrayCopy(pixels, image);
+  
+  
+  
   //updatePixels();
 
 
@@ -185,7 +202,9 @@ void draw() {
     }
 
     updatePixels();
+    
   }
+  
 }
 
 
@@ -320,6 +339,7 @@ void oscEvent(OscMessage theOscMessage) {
       blendModes.add(blendMode);
       
   }
+  
 
 
 
@@ -382,6 +402,7 @@ void keyPressed() {
     posY=1;
   
   }
+  
 }
 /*TODO
 
