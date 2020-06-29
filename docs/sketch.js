@@ -81,13 +81,13 @@ function draw() {
 
   maxSize = 100;
 
-  text(debugText,100,50);
+  //text(debugText,100,50);
 
 
 
   if (drawMode.value() == 1) {
 
-    print("lol",drawMode.value());
+    //print("lol",drawMode.value());
 
     if (mouseInCanvas) {
       if (mouseX > originPosX + maxSize) {
