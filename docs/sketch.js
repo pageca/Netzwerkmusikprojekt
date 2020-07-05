@@ -15,6 +15,10 @@ let mouseInCanvas;
 let node;
 let junction;
 
+let lastMouseX;
+let lastMouseY;
+let mouseWasDragged;
+
 function connectJunctionSuccess(connectedJunction) {
 	junction = connectedJunction;
 	print("Connected to Junction!");
@@ -32,7 +36,7 @@ function fail(errorMessage) {
 
 function setup() {
   let canvas = createCanvas(800, 400);
-  canvas.position(90,540)
+  canvas.position(90,540);
 
   OSCjunction.connect("node-1", connectNodeSuccess, fail);
 
@@ -45,19 +49,22 @@ function setup() {
   shapeType.option('polygon');
   shapeType.value('rectangle');
   shapeType.position(900,600)
-
+  shapeType.changed(uiChanged);
 
   drawMode = createRadio();
   drawMode.option('draw',1);
   drawMode.option('rotate',2);
   drawMode.value('1');
   drawMode.position(900,700)
+ 
 
   farbMode = createCheckbox('invert Colors', false);
-  farbMode.position(950,545)
+  farbMode.position(950,545);
+  farbMode.changed(uiChanged);
 
   colorPicker = createColorPicker('#ed225d');
   colorPicker.position(900,545);
+  colorPicker.changed(uiChanged);
 
   sendButton = createButton('Send');
   sendButton.position(900,800);
@@ -81,10 +88,14 @@ function draw() {
 
   maxSize = 100;
 
-  //text(debugText,100,50);
+  text(debugText,100,50);
 
+  if(drawMode==2)
+    cursor(HAND);
+  else
+    cursor(ARROW);
 
-
+  //Draw
   if (drawMode.value() == 1) {
 
     //print("lol",drawMode.value());
@@ -122,27 +133,25 @@ function draw() {
       endShape();
 
     }
+
+
+  //Rotation  
   } else if (drawMode.value() == 2) {
     
     push();
     
-
     
     if(shapeType.value() == "ellipse") {
       
       let centerPointX = originPosX+(secondPosX-originPosX)/2;
       let centerPointY = originPosY+(secondPosY-originPosY)/2;
-      if(mouseInCanvas){
-        rotToMouse = atan2(mouseY - centerPointY, mouseX - centerPointX);
-        if(rotStart){
-          rotation = rotToMouse-rotation;
-          rotStart = false;
-        }
+      if(mouseWasDragged){    
+        rotation = rotation + (atan2(mouseY-centerPointY,mouseX-centerPointX) - atan2(lastMouseY-centerPointY,lastMouseX-centerPointX));
+        lastMouseX = mouseX;
+        lastMouseY = mouseY;
       }
-      
       translate(centerPointX,centerPointY);
-      //rotate(mouseX/width*2*PI);
-      rotate(rotToMouse-rotation);
+      rotate(rotation);
       
       ellipseMode(CENTER); 
       ellipse(0,0,secondPosX-originPosX,secondPosY-originPosY);
@@ -151,16 +160,13 @@ function draw() {
       
       let centerPointX = originPosX+(secondPosX-originPosX)/2;
       let centerPointY = originPosY+(secondPosY-originPosY)/2;
-      if(mouseInCanvas){    
-        rotToMouse = atan2(mouseY - centerPointY, mouseX - centerPointX);
-        if(rotStart){
-          rotation = rotToMouse-rotation;
-          rotStart = false;
-        }
+      if(mouseWasDragged){    
+        rotation = rotation + (atan2(mouseY-centerPointY,mouseX-centerPointX) - atan2(lastMouseY-centerPointY,lastMouseX-centerPointX));
+        lastMouseX = mouseX;
+        lastMouseY = mouseY;
       }
       translate(centerPointX,centerPointY);
-      //rotate(mouseX/width*2*PI);
-      rotate(rotToMouse-rotation);
+      rotate(rotation);
       
       rectMode(CENTER); 
       rect(0,0,secondPosX-originPosX,secondPosY-originPosY);
@@ -189,16 +195,13 @@ function draw() {
       let centerPointX = left+(right-left)/2;
       let centerPointY = top+(bottom-top)/2;
     
-      if(mouseInCanvas){
-        rotToMouse = atan2(mouseY - centerPointY, mouseX - centerPointX);
-        if(rotStart){
-          rotation = rotToMouse-rotation;
-          rotStart = false;
-        }
+      if(mouseWasDragged){    
+        rotation = rotation + (atan2(mouseY-centerPointY,mouseX-centerPointX) - atan2(lastMouseY-centerPointY,lastMouseX-centerPointX));
+        lastMouseX = mouseX;
+        lastMouseY = mouseY;
       }
       translate(centerPointX,centerPointY);
-      //rotate(mouseX/width*2*PI);
-      rotate(rotToMouse-rotation);
+      rotate(rotation);
       
       
       beginShape();
@@ -231,31 +234,37 @@ function mousePressed() {
     
       originPosX = mouseX;
       originPosY = mouseY;
+      rotation = 0;
       print("mouse is pressed");
     
     } else if(drawMode.value() == 2){
             
-      rotStart=true;
+      //rotation = 0;
+      lastMouseX = mouseX;
+      lastMouseY = mouseY;
     
     }
     redraw();
   }
 
   //debugText = [mouseX,mouseY,'  ', width,height];
-  redraw();
+  //redraw();
 
 }
 
 function mouseDragged() {
-
-  redraw();
+  if  (mouseInCanvas){
+    mouseWasDragged = true;
+    redraw();
+  }
 }
 
 
 function mouseReleased(){
   if(mouseInCanvas){
-    rotation = rotToMouse-rotation;
+    //rotation = rotToMouse-rotation;
   }
+  mouseWasDragged = false;
 }
 
 
@@ -298,10 +307,19 @@ function reset(){
 
   polyVertexes = [];
   rotation=0;
-
+  originPosX = -1;
+  originPosY = -1;
+  secondPosX = -1;
+  secondPosY = -1;  
+  mouseInCanvas = false;
   redraw();
 
 
+}
+
+function uiChanged(){
+  mouseInCanvas = false;
+  redraw();
 }
 
 
