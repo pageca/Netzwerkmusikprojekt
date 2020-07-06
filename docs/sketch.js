@@ -3,9 +3,7 @@ let originPosY;
 let secondPosX;
 let secondPosY;
 
-let rotStart;
 let rotation = 0;
-let rotToMouse =0;
 
 let polyVertexes = [];
 
@@ -142,39 +140,8 @@ function draw() {
     
     push();
     
-    
-    if(shapeType.value() == "ellipse") {
-      
-      let centerPointX = originPosX+(secondPosX-originPosX)/2;
-      let centerPointY = originPosY+(secondPosY-originPosY)/2;
-      if(mouseWasDragged){    
-        rotation = rotation + (atan2(mouseY-centerPointY,mouseX-centerPointX) - atan2(lastMouseY-centerPointY,lastMouseX-centerPointX));
-        lastMouseX = mouseX;
-        lastMouseY = mouseY;
-      }
-      translate(centerPointX,centerPointY);
-      rotate(rotation);
-      
-      ellipseMode(CENTER); 
-      ellipse(0,0,secondPosX-originPosX,secondPosY-originPosY);
-      
-    }else if(shapeType.value() == "rectangle") {
-      
-      let centerPointX = originPosX+(secondPosX-originPosX)/2;
-      let centerPointY = originPosY+(secondPosY-originPosY)/2;
-      if(mouseWasDragged){    
-        rotation = rotation + (atan2(mouseY-centerPointY,mouseX-centerPointX) - atan2(lastMouseY-centerPointY,lastMouseX-centerPointX));
-        lastMouseX = mouseX;
-        lastMouseY = mouseY;
-      }
-      translate(centerPointX,centerPointY);
-      rotate(rotation);
-      
-      rectMode(CENTER); 
-      rect(0,0,secondPosX-originPosX,secondPosY-originPosY);
-      
-    }else if(shapeType.value() == "polygon") {
-      
+    if(shapeType.value() == "polygon") {
+        
       let top = height+1;
       let bottom = -1;
       let left = width+1;
@@ -217,8 +184,35 @@ function draw() {
         line(polyVertexes[0][0]-centerPointX, polyVertexes[0][1]-centerPointY, polyVertexes[polyVertexes.length-1][0]-centerPointX, polyVertexes[polyVertexes.length-1][1]-centerPointY);
       }
 
+    }else{
+
+      let centerPointX = originPosX+(secondPosX-originPosX)/2;
+      let centerPointY = originPosY+(secondPosY-originPosY)/2;
+      if(mouseWasDragged){    
+        rotation = rotation + (atan2(mouseY-centerPointY,mouseX-centerPointX) - atan2(lastMouseY-centerPointY,lastMouseX-centerPointX));
+        lastMouseX = mouseX;
+        lastMouseY = mouseY;
+      }
+      translate(centerPointX,centerPointY);
+      rotate(rotation);
+
+      if(shapeType.value() == "ellipse") {
+              
+        ellipseMode(CENTER); 
+        ellipse(0,0,secondPosX-originPosX,secondPosY-originPosY);
+        
+      }else if(shapeType.value() == "rectangle") {
+          
+        rectMode(CENTER); 
+        rect(0,0,secondPosX-originPosX,secondPosY-originPosY);
+        
+      }else if(shapeType.value() == "triangle"){
+        triangle(originPosX-centerPointX, secondPosY-centerPointY, (originPosX+secondPosX)/2-centerPointX, originPosY-centerPointY, secondPosX-centerPointX, secondPosY-centerPointY);
+
+      }
+
     }
-    
+
     pop();
 
   }
@@ -355,11 +349,7 @@ function uiChanged(){
 
 /*ToDo
 
-rotation ändert sich beim klicken außerhalb canvas
-
-
-
-triangle vllt irgendwann, nicht wichtig
+-Style
 
 
 */
