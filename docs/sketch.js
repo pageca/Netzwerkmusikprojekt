@@ -46,6 +46,7 @@ function setup() {
   shapeType = createRadio();
   shapeType.option('ellipse');
   shapeType.option('rectangle');
+  shapeType.option('triangle');
   shapeType.option('polygon');
   shapeType.value('rectangle');
   shapeType.position(900,600)
@@ -55,7 +56,8 @@ function setup() {
   drawMode.option('draw',1);
   drawMode.option('rotate',2);
   drawMode.value('1');
-  drawMode.position(900,700)
+  drawMode.position(900,700);
+  drawMode.changed(uiChanged);
  
 
   farbMode = createCheckbox('invert Colors', false);
@@ -90,11 +92,6 @@ function draw() {
 
   text(debugText,100,50);
 
-  if(drawMode==2)
-    cursor(HAND);
-  else
-    cursor(ARROW);
-
   //Draw
   if (drawMode.value() == 1) {
 
@@ -122,6 +119,8 @@ function draw() {
       ellipse(originPosX, originPosY, secondPosX, secondPosY);
     } else if (shapeType.value() == "rectangle") {
       rect(originPosX, originPosY, secondPosX, secondPosY);
+    } else if (shapeType.value() == "triangle"){
+      triangle(originPosX, secondPosY, (originPosX+secondPosX)/2, originPosY, secondPosX, secondPosY);
     } else if (shapeType.value() == "polygon") {
 
 
@@ -131,6 +130,9 @@ function draw() {
         vertex(polyVertexes[i][0], polyVertexes[i][1]);
       }
       endShape();
+      if(polyVertexes.length>1){
+        line(polyVertexes[0][0], polyVertexes[0][1], polyVertexes[polyVertexes.length-1][0], polyVertexes[polyVertexes.length-1][1]);
+      }
 
     }
 
@@ -210,7 +212,11 @@ function draw() {
         vertex(polyVertexes[i][0]-centerPointX, polyVertexes[i][1]-centerPointY);
       }
       endShape();
-    
+
+      if(polyVertexes.length>1){
+        line(polyVertexes[0][0]-centerPointX, polyVertexes[0][1]-centerPointY, polyVertexes[polyVertexes.length-1][0]-centerPointX, polyVertexes[polyVertexes.length-1][1]-centerPointY);
+      }
+
     }
     
     pop();
@@ -244,6 +250,14 @@ function mousePressed() {
       lastMouseY = mouseY;
     
     }
+
+    if(drawMode.value() ==2)
+      cursor('GRABBING');
+    else if(shapeType.value() == 'polygon')
+      cursor(CROSS);
+    else
+      cursor('none');
+
     redraw();
   }
 
@@ -261,9 +275,14 @@ function mouseDragged() {
 
 
 function mouseReleased(){
-  if(mouseInCanvas){
-    //rotation = rotToMouse-rotation;
-  }
+
+  if(drawMode.value() ==2)
+    cursor('GRAB');
+  else if(shapeType.value() == 'polygon')
+    cursor(CROSS);
+  else
+    cursor(ARROW);
+
   mouseWasDragged = false;
 }
 
@@ -285,6 +304,8 @@ function sendOut(){
       junction.send("/rect", [originPosX,originPosY,secondPosX,secondPosY,rotation,invertMode,red(colorPicker.value()),green(colorPicker.value()),blue(colorPicker.value())]);
     else if(shapeType.value()=='ellipse')
       junction.send("/ellipse", [originPosX,originPosY,secondPosX,secondPosY,rotation,invertMode,red(colorPicker.value()),green(colorPicker.value()),blue(colorPicker.value())]);
+    else if(shapeType.value()=='triangle')
+      junction.send("/triangle", [originPosX,originPosY,secondPosX,secondPosY,rotation,invertMode,red(colorPicker.value()),green(colorPicker.value()),blue(colorPicker.value())]);
     else {
       let args =[rotation,invertMode,red(colorPicker.value()),green(colorPicker.value()),blue(colorPicker.value())];
       
@@ -319,6 +340,14 @@ function reset(){
 
 function uiChanged(){
   mouseInCanvas = false;
+
+  if(drawMode.value() ==2)
+    cursor('GRAB');
+  else if(shapeType.value() == 'polygon')
+    cursor(CROSS);
+  else
+    cursor(ARROW);
+
   redraw();
 }
 
