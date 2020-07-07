@@ -355,7 +355,7 @@ function draw() {
   //}
 
 
-  text(debugText,100,50);
+  //text(debugText,100,50);
 
 
 }
