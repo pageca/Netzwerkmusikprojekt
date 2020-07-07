@@ -356,7 +356,7 @@ function draw() {
 
 
   //text(debugText,100,50);
-  text("v1.0",750,380);
+  //text("v1.0",750,380);
 
 }
 
