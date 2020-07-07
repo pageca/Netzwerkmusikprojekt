@@ -104,20 +104,95 @@ function setup() {
 function draw() {
   background(208, 218, 255);
 
-
   fill(colorPicker.color());
-  print(red(colorPicker.value()),green(colorPicker.value()),blue(colorPicker.value()));
 
   maxSize = 100;
 
-  //text(debugText,100,50);
+  debugText ="";
 
   //Draw
-  if (drawMode.value() == 1) {
+  // if (drawMode.value() == 1) {
 
-    //print("lol",drawMode.value());
+    // //print("lol",drawMode.value());
 
-    if (mouseInCanvas) {
+    // if (mouseInCanvas) {
+    //   if (mouseX > originPosX + maxSize) {
+    //     secondPosX = originPosX + maxSize;
+    //   } else if (mouseX < originPosX - maxSize) {
+    //     secondPosX = originPosX - maxSize;
+    //   } else {
+    //     secondPosX = mouseX;
+    //   }
+
+    //   if (mouseY > originPosY + maxSize) {
+    //     secondPosY = originPosY + maxSize;
+    //   } else if (mouseY < originPosY - maxSize) {
+    //     secondPosY = originPosY - maxSize;
+    //   } else {
+    //     secondPosY = mouseY;
+    //   }
+    // }
+
+    // if(farbMode.checked()){
+    //   shape = createGraphics(width,height);
+    //   shape.fill(0);
+    //   shape.ellipseMode(CORNERS);
+    //   shape.rectMode(CORNERS);
+
+    //   tempTexture.copy(missTexture, 0, 0, width, height, 0, 0, width, height);
+
+    //   if (shapeType.value() == "ellipse") {
+    //     shape.ellipse(originPosX, originPosY, secondPosX, secondPosY);
+    //   } else if (shapeType.value() == "rectangle") {
+    //     shape.rect(originPosX, originPosY, secondPosX, secondPosY);
+    //   } else if (shapeType.value() == "triangle"){
+    //     shape.triangle(originPosX, secondPosY, (originPosX+secondPosX)/2, originPosY, secondPosX, secondPosY);
+    //   } else if (shapeType.value() == "polygon") {
+
+
+    //     shape.beginShape();
+
+    //     for (let i = 0; i < polyVertexes.length; i++) {
+    //       shape.vertex(polyVertexes[i][0], polyVertexes[i][1]);
+    //     }
+    //     shape.endShape();
+    //     if(polyVertexes.length>1){
+    //       shape.line(polyVertexes[0][0], polyVertexes[0][1], polyVertexes[polyVertexes.length-1][0], polyVertexes[polyVertexes.length-1][1]);
+    //     }
+
+    //   }
+
+    //   tempTexture.mask(shape);
+    //   image(tempTexture,0,0);
+
+    // }else{
+    //   if (shapeType.value() == "ellipse") {
+    //     ellipse(originPosX, originPosY, secondPosX, secondPosY);
+    //   } else if (shapeType.value() == "rectangle") {
+    //     rect(originPosX, originPosY, secondPosX, secondPosY);
+    //   } else if (shapeType.value() == "triangle"){
+    //     triangle(originPosX, secondPosY, (originPosX+secondPosX)/2, originPosY, secondPosX, secondPosY);
+    //   } else if (shapeType.value() == "polygon") {
+
+
+    //     beginShape();
+
+    //     for (let i = 0; i < polyVertexes.length; i++) {
+    //       vertex(polyVertexes[i][0], polyVertexes[i][1]);
+    //     }
+    //     endShape();
+    //     if(polyVertexes.length>1){
+    //       line(polyVertexes[0][0], polyVertexes[0][1], polyVertexes[polyVertexes.length-1][0], polyVertexes[polyVertexes.length-1][1]);
+    //     }
+
+    //   }
+    // }
+
+  //Rotation  
+  //if (drawMode.value() == 2) {
+    
+    if (mouseInCanvas && (drawMode.value() == 1)) {
+      //debugText = debugText + "drawMode: 1 ";
       if (mouseX > originPosX + maxSize) {
         secondPosX = originPosX + maxSize;
       } else if (mouseX < originPosX - maxSize) {
@@ -135,64 +210,7 @@ function draw() {
       }
     }
 
-    if(farbMode.checked()){
-      shape = createGraphics(width,height);
-      shape.fill(0);
-      shape.ellipseMode(CORNERS);
-      shape.rectMode(CORNERS);
 
-      tempTexture.copy(missTexture, 0, 0, width, height, 0, 0, width, height);
-
-      if (shapeType.value() == "ellipse") {
-        shape.ellipse(originPosX, originPosY, secondPosX, secondPosY);
-      } else if (shapeType.value() == "rectangle") {
-        shape.rect(originPosX, originPosY, secondPosX, secondPosY);
-      } else if (shapeType.value() == "triangle"){
-        shape.triangle(originPosX, secondPosY, (originPosX+secondPosX)/2, originPosY, secondPosX, secondPosY);
-      } else if (shapeType.value() == "polygon") {
-
-
-        shape.beginShape();
-
-        for (let i = 0; i < polyVertexes.length; i++) {
-          shape.vertex(polyVertexes[i][0], polyVertexes[i][1]);
-        }
-        shape.endShape();
-        if(polyVertexes.length>1){
-          shape.line(polyVertexes[0][0], polyVertexes[0][1], polyVertexes[polyVertexes.length-1][0], polyVertexes[polyVertexes.length-1][1]);
-        }
-
-      }
-
-      tempTexture.mask(shape);
-      image(tempTexture,0,0);
-
-    }else{
-      if (shapeType.value() == "ellipse") {
-        ellipse(originPosX, originPosY, secondPosX, secondPosY);
-      } else if (shapeType.value() == "rectangle") {
-        rect(originPosX, originPosY, secondPosX, secondPosY);
-      } else if (shapeType.value() == "triangle"){
-        triangle(originPosX, secondPosY, (originPosX+secondPosX)/2, originPosY, secondPosX, secondPosY);
-      } else if (shapeType.value() == "polygon") {
-
-
-        beginShape();
-
-        for (let i = 0; i < polyVertexes.length; i++) {
-          vertex(polyVertexes[i][0], polyVertexes[i][1]);
-        }
-        endShape();
-        if(polyVertexes.length>1){
-          line(polyVertexes[0][0], polyVertexes[0][1], polyVertexes[polyVertexes.length-1][0], polyVertexes[polyVertexes.length-1][1]);
-        }
-
-      }
-    }
-
-  //Rotation  
-  } else if (drawMode.value() == 2) {
-    
     push();
     
     if(shapeType.value() == "polygon") {
@@ -219,7 +237,8 @@ function draw() {
       let centerPointX = left+(right-left)/2;
       let centerPointY = top+(bottom-top)/2;
     
-      if(mouseWasDragged){    
+      if( (drawMode.value() == 2) && mouseWasDragged){    
+        debugText = debugText + "drawMode: 2 ";
         rotation = rotation + (atan2(mouseY-centerPointY,mouseX-centerPointX) - atan2(lastMouseY-centerPointY,lastMouseX-centerPointX));
         lastMouseX = mouseX;
         lastMouseY = mouseY;
@@ -273,7 +292,7 @@ function draw() {
 
       let centerPointX = originPosX+(secondPosX-originPosX)/2;
       let centerPointY = originPosY+(secondPosY-originPosY)/2;
-      if(mouseWasDragged){    
+      if(mouseWasDragged && (drawMode.value() == 2)){    
         rotation = rotation + (atan2(mouseY-centerPointY,mouseX-centerPointX) - atan2(lastMouseY-centerPointY,lastMouseX-centerPointX));
         lastMouseX = mouseX;
         lastMouseY = mouseY;
@@ -333,7 +352,11 @@ function draw() {
 
     pop();
 
-  }
+  //}
+
+
+  text(debugText,100,50);
+
 
 }
 
@@ -346,6 +369,7 @@ function mousePressed() {
 
   if  (mouseInCanvas){
     if (shapeType.value() == "polygon" && drawMode.value() == 1) {
+      rotation = 0;
       polyVertexes.push([mouseX, mouseY]);
 
     } else if(drawMode.value() == 1) {
@@ -357,7 +381,6 @@ function mousePressed() {
     
     } else if(drawMode.value() == 2){
             
-      //rotation = 0;
       lastMouseX = mouseX;
       lastMouseY = mouseY;
     
@@ -374,7 +397,6 @@ function mousePressed() {
   }
 
   //debugText = [mouseX,mouseY,'  ', width,height];
-  //redraw();
 
 }
 
