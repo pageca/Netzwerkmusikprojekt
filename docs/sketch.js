@@ -34,7 +34,9 @@ function fail(errorMessage) {
 
 function setup() {
   let canvas = createCanvas(800, 400);
-  canvas.position(90,540);
+  let posX =380;
+  let posY = 550;
+  canvas.position(posX,posY);
 
   OSCjunction.connect("node-1", connectNodeSuccess, fail);
 
@@ -47,33 +49,37 @@ function setup() {
   shapeType.option('triangle');
   shapeType.option('polygon');
   shapeType.value('rectangle');
-  shapeType.position(900,600)
+  shapeType.position(posX+820,posY+100)
   shapeType.changed(uiChanged);
 
   drawMode = createRadio();
   drawMode.option('draw',1);
   drawMode.option('rotate',2);
   drawMode.value('1');
-  drawMode.position(900,700);
+  drawMode.position(posX+820,posY+200);
   drawMode.changed(uiChanged);
  
 
   farbMode = createCheckbox('invert Colors', false);
-  farbMode.position(950,545);
+  farbMode.position(posX+900,posY+14);
   farbMode.changed(uiChanged);
 
   colorPicker = createColorPicker('#ed225d');
-  colorPicker.position(900,545);
+  colorPicker.position(posX+820,posY+10);
   colorPicker.changed(uiChanged);
 
   sendButton = createButton('Send');
-  sendButton.position(900,800);
+  sendButton.position(posX+820,posY+300);
   sendButton.mousePressed(sendOut);
+  sendButton.style('background-color', color(18, 161, 87));
+  sendButton.style('color', color(186, 247, 216));  
+
 
   resetButton = createButton('Reset');
-  resetButton.position(980,800);
+  resetButton.position(posX+900,posY+300);
   resetButton.mousePressed(reset);
-
+  resetButton.style('background-color', color(171, 48, 48));
+  resetButton.style('color', color(250, 220, 220));  
   noLoop();
 }
 
