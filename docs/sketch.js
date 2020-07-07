@@ -94,24 +94,7 @@ function setup() {
   tempTexture = createImage(width,height);
   shape = createGraphics(width,height);
   
-  
-
   missTexture.loadPixels();
-  // let rastersize = 10;
-  // let pinkOrBlack
-  // for (let x = 0; x < width - rastersize+1; x = x + rastersize) {
-  //   pinkOrBlack = !pinkOrBlack;
-  //   for (let y = 0; y < width - rastersize+1; y = y + rastersize) {
-      
-  //     pinkOrBlack = !pinkOrBlack;
-  //     for (let ix = 0; ix <rastersize; ix++) {
-  //       for (let iy = 0; iy <rastersize; iy++) {
-          
-  
-  // missTexture.updatePixels();
-  missTexture.loadPixels();
-
-
 
   noLoop();
 }
