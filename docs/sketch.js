@@ -17,6 +17,11 @@ let lastMouseX;
 let lastMouseY;
 let mouseWasDragged;
 
+let missTexture;
+let tempTexture;
+let shape;
+
+
 function connectJunctionSuccess(connectedJunction) {
 	junction = connectedJunction;
 	print("Connected to Junction!");
@@ -31,10 +36,17 @@ function fail(errorMessage) {
 	print(errorMessage);
 }
 
+function preload(){
+
+  missTexture = loadImage('data/missTexture.jpg');
+
+}
 
 function setup() {
   let canvas = createCanvas(800, 400);
-  canvas.position(90,540);
+  let posX =380;
+  let posY = 550;
+  canvas.position(posX,posY);
 
   OSCjunction.connect("node-1", connectNodeSuccess, fail);
 
@@ -47,32 +59,75 @@ function setup() {
   shapeType.option('triangle');
   shapeType.option('polygon');
   shapeType.value('rectangle');
-  shapeType.position(900,600)
+  shapeType.position(posX+820,posY+100)
   shapeType.changed(uiChanged);
 
   drawMode = createRadio();
   drawMode.option('draw',1);
   drawMode.option('rotate',2);
   drawMode.value('1');
-  drawMode.position(900,700);
+  drawMode.position(posX+820,posY+200);
   drawMode.changed(uiChanged);
  
 
   farbMode = createCheckbox('invert Colors', false);
-  farbMode.position(950,545);
+  farbMode.position(posX+900,posY+14);
   farbMode.changed(uiChanged);
 
   colorPicker = createColorPicker('#ed225d');
-  colorPicker.position(900,545);
+  colorPicker.position(posX+820,posY+10);
   colorPicker.changed(uiChanged);
 
   sendButton = createButton('Send');
-  sendButton.position(900,800);
+  sendButton.position(posX+820,posY+300);
   sendButton.mousePressed(sendOut);
+  sendButton.style('background-color', color(18, 161, 87));
+  sendButton.style('color', color(186, 247, 216));  
+
 
   resetButton = createButton('Reset');
-  resetButton.position(980,800);
+  resetButton.position(posX+900,posY+300);
   resetButton.mousePressed(reset);
+  resetButton.style('background-color', color(171, 48, 48));
+  resetButton.style('color', color(250, 220, 220));  
+
+  tempTexture = createImage(width,height);
+  //missTexture = createImage(width,height);
+  shape = createGraphics(width,height);
+  
+  
+
+  missTexture.loadPixels();
+  // let rastersize = 10;
+  // let pinkOrBlack
+  // for (let x = 0; x < width - rastersize+1; x = x + rastersize) {
+  //   pinkOrBlack = !pinkOrBlack;
+  //   for (let y = 0; y < width - rastersize+1; y = y + rastersize) {
+      
+  //     pinkOrBlack = !pinkOrBlack;
+  //     for (let ix = 0; ix <rastersize; ix++) {
+  //       for (let iy = 0; iy <rastersize; iy++) {
+          
+  //         let c;
+  //         if(pinkOrBlack)
+  //           c= color(0);
+  //         else
+  //           c=color(235,0,235);
+  //         missTexture.pixels[(x+ix+(y+iy)*width)*4]=red(c);
+  //         missTexture.pixels[(x+ix+(y+iy)*width)*4+1]=0;
+  //         missTexture.pixels[(x+ix+(y+iy)*width)*4+2]=blue(c);
+  //         missTexture.pixels[(x+ix+(y+iy)*width)*4+3]=255;
+  //       }
+  //     }
+
+  //   }
+  // }
+  
+  // missTexture.updatePixels();
+
+  //missTexture.save('missTexture','png');
+  //missTexture.save('missTexture','jpg');
+
 
   noLoop();
 }
@@ -113,27 +168,60 @@ function draw() {
       }
     }
 
-    if (shapeType.value() == "ellipse") {
-      ellipse(originPosX, originPosY, secondPosX, secondPosY);
-    } else if (shapeType.value() == "rectangle") {
-      rect(originPosX, originPosY, secondPosX, secondPosY);
-    } else if (shapeType.value() == "triangle"){
-      triangle(originPosX, secondPosY, (originPosX+secondPosX)/2, originPosY, secondPosX, secondPosY);
-    } else if (shapeType.value() == "polygon") {
+    if(farbMode.checked()){
+      shape = createGraphics(width,height);
+      shape.fill(0);
+      shape.ellipseMode(CORNERS);
+      shape.rectMode(CORNERS);
+
+      tempTexture.copy(missTexture, 0, 0, width, height, 0, 0, width, height);
+
+      if (shapeType.value() == "ellipse") {
+        shape.ellipse(originPosX, originPosY, secondPosX, secondPosY);
+      } else if (shapeType.value() == "rectangle") {
+        shape.rect(originPosX, originPosY, secondPosX, secondPosY);
+      } else if (shapeType.value() == "triangle"){
+        shape.triangle(originPosX, secondPosY, (originPosX+secondPosX)/2, originPosY, secondPosX, secondPosY);
+      } else if (shapeType.value() == "polygon") {
 
 
-      beginShape();
+        shape.beginShape();
 
-      for (let i = 0; i < polyVertexes.length; i++) {
-        vertex(polyVertexes[i][0], polyVertexes[i][1]);
+        for (let i = 0; i < polyVertexes.length; i++) {
+          shape.vertex(polyVertexes[i][0], polyVertexes[i][1]);
+        }
+        shape.endShape();
+        if(polyVertexes.length>1){
+          shape.line(polyVertexes[0][0], polyVertexes[0][1], polyVertexes[polyVertexes.length-1][0], polyVertexes[polyVertexes.length-1][1]);
+        }
+
       }
-      endShape();
-      if(polyVertexes.length>1){
-        line(polyVertexes[0][0], polyVertexes[0][1], polyVertexes[polyVertexes.length-1][0], polyVertexes[polyVertexes.length-1][1]);
-      }
 
+      tempTexture.mask(shape);
+      image(tempTexture,0,0);
+
+    }else{
+      if (shapeType.value() == "ellipse") {
+        ellipse(originPosX, originPosY, secondPosX, secondPosY);
+      } else if (shapeType.value() == "rectangle") {
+        rect(originPosX, originPosY, secondPosX, secondPosY);
+      } else if (shapeType.value() == "triangle"){
+        triangle(originPosX, secondPosY, (originPosX+secondPosX)/2, originPosY, secondPosX, secondPosY);
+      } else if (shapeType.value() == "polygon") {
+
+
+        beginShape();
+
+        for (let i = 0; i < polyVertexes.length; i++) {
+          vertex(polyVertexes[i][0], polyVertexes[i][1]);
+        }
+        endShape();
+        if(polyVertexes.length>1){
+          line(polyVertexes[0][0], polyVertexes[0][1], polyVertexes[polyVertexes.length-1][0], polyVertexes[polyVertexes.length-1][1]);
+        }
+
+      }
     }
-
 
   //Rotation  
   } else if (drawMode.value() == 2) {
@@ -169,19 +257,49 @@ function draw() {
         lastMouseX = mouseX;
         lastMouseY = mouseY;
       }
-      translate(centerPointX,centerPointY);
-      rotate(rotation);
-      
-      
-      beginShape();
 
-      for (let i = 0; i < polyVertexes.length; i++) {
-        vertex(polyVertexes[i][0]-centerPointX, polyVertexes[i][1]-centerPointY);
-      }
-      endShape();
+      if(farbMode.checked()){
+        shape = createGraphics(width,height);
+        shape.fill(0);
+        shape.ellipseMode(CORNERS);
+        shape.rectMode(CORNERS);
+        
+        tempTexture.copy(missTexture, 0, 0, width, height, 0, 0, width, height);
 
-      if(polyVertexes.length>1){
-        line(polyVertexes[0][0]-centerPointX, polyVertexes[0][1]-centerPointY, polyVertexes[polyVertexes.length-1][0]-centerPointX, polyVertexes[polyVertexes.length-1][1]-centerPointY);
+        shape.translate(centerPointX,centerPointY);
+        shape.rotate(rotation);
+
+
+        
+        shape.beginShape();
+
+        for (let i = 0; i < polyVertexes.length; i++) {
+          shape.vertex(polyVertexes[i][0]-centerPointX, polyVertexes[i][1]-centerPointY);
+        }
+        shape.endShape();
+
+        if(polyVertexes.length>1){
+          shape.line(polyVertexes[0][0]-centerPointX, polyVertexes[0][1]-centerPointY, polyVertexes[polyVertexes.length-1][0]-centerPointX, polyVertexes[polyVertexes.length-1][1]-centerPointY);
+        }
+
+        tempTexture.mask(shape);
+        image(tempTexture,0,0);
+
+      }else{    
+
+        translate(centerPointX,centerPointY);
+        rotate(rotation);
+        
+        beginShape();
+
+        for (let i = 0; i < polyVertexes.length; i++) {
+          vertex(polyVertexes[i][0]-centerPointX, polyVertexes[i][1]-centerPointY);
+        }
+        endShape();
+
+        if(polyVertexes.length>1){
+          line(polyVertexes[0][0]-centerPointX, polyVertexes[0][1]-centerPointY, polyVertexes[polyVertexes.length-1][0]-centerPointX, polyVertexes[polyVertexes.length-1][1]-centerPointY);
+        }
       }
 
     }else{
@@ -193,24 +311,57 @@ function draw() {
         lastMouseX = mouseX;
         lastMouseY = mouseY;
       }
-      translate(centerPointX,centerPointY);
-      rotate(rotation);
 
-      if(shapeType.value() == "ellipse") {
-              
-        ellipseMode(CENTER); 
-        ellipse(0,0,secondPosX-originPosX,secondPosY-originPosY);
+      if(farbMode.checked()){
+
+        shape = createGraphics(width,height);
+        shape.fill(0);
+        shape.ellipseMode(CORNERS);
+        shape.rectMode(CORNERS);
         
-      }else if(shapeType.value() == "rectangle") {
+        tempTexture.copy(missTexture, 0, 0, width, height, 0, 0, width, height);
+
+        shape.translate(centerPointX,centerPointY);
+        shape.rotate(rotation);
+
+        if(shapeType.value() == "ellipse") {
+                
+          shape.ellipseMode(CENTER); 
+          shape.ellipse(0,0,secondPosX-originPosX,secondPosY-originPosY);
           
-        rectMode(CENTER); 
-        rect(0,0,secondPosX-originPosX,secondPosY-originPosY);
-        
-      }else if(shapeType.value() == "triangle"){
-        triangle(originPosX-centerPointX, secondPosY-centerPointY, (originPosX+secondPosX)/2-centerPointX, originPosY-centerPointY, secondPosX-centerPointX, secondPosY-centerPointY);
+        }else if(shapeType.value() == "rectangle") {
+            
+          shape.rectMode(CENTER); 
+          shape.rect(0,0,secondPosX-originPosX,secondPosY-originPosY);
+          
+        }else if(shapeType.value() == "triangle"){
+          shape.triangle(originPosX-centerPointX, secondPosY-centerPointY, (originPosX+secondPosX)/2-centerPointX, originPosY-centerPointY, secondPosX-centerPointX, secondPosY-centerPointY);
 
+        }
+
+        tempTexture.mask(shape);
+        image(tempTexture,0,0);
+
+      }else{
+
+        translate(centerPointX,centerPointY);
+        rotate(rotation);
+
+        if(shapeType.value() == "ellipse") {
+                
+          ellipseMode(CENTER); 
+          ellipse(0,0,secondPosX-originPosX,secondPosY-originPosY);
+          
+        }else if(shapeType.value() == "rectangle") {
+            
+          rectMode(CENTER); 
+          rect(0,0,secondPosX-originPosX,secondPosY-originPosY);
+          
+        }else if(shapeType.value() == "triangle"){
+          triangle(originPosX-centerPointX, secondPosY-centerPointY, (originPosX+secondPosX)/2-centerPointX, originPosY-centerPointY, secondPosX-centerPointX, secondPosY-centerPointY);
+
+        }
       }
-
     }
 
     pop();
