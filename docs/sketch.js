@@ -102,7 +102,7 @@ function setup() {
 
 
 function draw() {
-  background(108, 218, 255);
+  background(208, 218, 255);
 
 
   fill(colorPicker.color());
