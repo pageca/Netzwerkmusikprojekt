@@ -92,42 +92,9 @@ function setup() {
   resetButton.style('color', color(250, 220, 220));  
 
   tempTexture = createImage(width,height);
-  //missTexture = createImage(width,height);
   shape = createGraphics(width,height);
   
-  
-
   missTexture.loadPixels();
-  // let rastersize = 10;
-  // let pinkOrBlack
-  // for (let x = 0; x < width - rastersize+1; x = x + rastersize) {
-  //   pinkOrBlack = !pinkOrBlack;
-  //   for (let y = 0; y < width - rastersize+1; y = y + rastersize) {
-      
-  //     pinkOrBlack = !pinkOrBlack;
-  //     for (let ix = 0; ix <rastersize; ix++) {
-  //       for (let iy = 0; iy <rastersize; iy++) {
-          
-  //         let c;
-  //         if(pinkOrBlack)
-  //           c= color(0);
-  //         else
-  //           c=color(235,0,235);
-  //         missTexture.pixels[(x+ix+(y+iy)*width)*4]=red(c);
-  //         missTexture.pixels[(x+ix+(y+iy)*width)*4+1]=0;
-  //         missTexture.pixels[(x+ix+(y+iy)*width)*4+2]=blue(c);
-  //         missTexture.pixels[(x+ix+(y+iy)*width)*4+3]=255;
-  //       }
-  //     }
-
-  //   }
-  // }
-  
-  // missTexture.updatePixels();
-
-  //missTexture.save('missTexture','png');
-  //missTexture.save('missTexture','jpg');
-
 
   noLoop();
 }
@@ -135,7 +102,7 @@ function setup() {
 
 
 function draw() {
-  background(220);
+  background(208, 218, 255);
 
 
   fill(colorPicker.color());
@@ -143,7 +110,7 @@ function draw() {
 
   maxSize = 100;
 
-  text(debugText,100,50);
+  //text(debugText,100,50);
 
   //Draw
   if (drawMode.value() == 1) {
