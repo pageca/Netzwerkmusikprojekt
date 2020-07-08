@@ -21,6 +21,8 @@ let missTexture;
 let tempTexture;
 let shape;
 
+let scale = 2;
+
 
 function connectJunctionSuccess(connectedJunction) {
 	junction = connectedJunction;
@@ -43,7 +45,7 @@ function preload(){
 }
 
 function setup() {
-  let canvas = createCanvas(854, 480);
+  let canvas = createCanvas(640, 360);
   let posX =380;
   let posY = 550;
   canvas.position(posX,posY);
@@ -435,17 +437,17 @@ function sendOut(){
 
     
     if(shapeType.value()=='rectangle')
-      junction.send("/rect", [originPosX,originPosY,secondPosX,secondPosY,rotation,invertMode,red(colorPicker.value()),green(colorPicker.value()),blue(colorPicker.value())]);
+      junction.send("/rect", [originPosX*scale,originPosY*scale,secondPosX*scale,secondPosY*scale,rotation,invertMode,red(colorPicker.value()),green(colorPicker.value()),blue(colorPicker.value())]);
     else if(shapeType.value()=='ellipse')
-      junction.send("/ellipse", [originPosX,originPosY,secondPosX,secondPosY,rotation,invertMode,red(colorPicker.value()),green(colorPicker.value()),blue(colorPicker.value())]);
+      junction.send("/ellipse", [originPosX*scale,originPosY*scale,secondPosX*scale,secondPosY*scale,rotation,invertMode,red(colorPicker.value()),green(colorPicker.value()),blue(colorPicker.value())]);
     else if(shapeType.value()=='triangle')
-      junction.send("/triangle", [originPosX,originPosY,secondPosX,secondPosY,rotation,invertMode,red(colorPicker.value()),green(colorPicker.value()),blue(colorPicker.value())]);
+      junction.send("/triangle", [originPosX*scale,originPosY*scale,secondPosX*scale,secondPosY*scale,rotation,invertMode,red(colorPicker.value()),green(colorPicker.value()),blue(colorPicker.value())]);
     else {
       let args =[rotation,invertMode,red(colorPicker.value()),green(colorPicker.value()),blue(colorPicker.value())];
       
       for (let i = 0; i < polyVertexes.length; i++) {
-        args.push(polyVertexes[i][0]);
-        args.push(polyVertexes[i][1]);
+        args.push(polyVertexes[i][0])*scale;
+        args.push(polyVertexes[i][1]) *scale;
       }
       junction.send("/poly",args);
 
@@ -453,7 +455,7 @@ function sendOut(){
   }
 
   //debugText = [originPosX,originPosY,secondPosX,secondPosY,rotation,invertMode,red(colorPicker.value()),green(colorPicker.value()),blue(colorPicker.value())];
-  debugText = [originPosX,originPosY,secondPosX,secondPosY,rotation,invertMode];
+  debugText = [originPosX*scale,originPosY*scale,secondPosX*scale,secondPosY*scale,rotation,invertMode];
   reset();
 
 }
