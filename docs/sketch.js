@@ -46,7 +46,7 @@ function preload(){
 
 function setup() {
   let canvas = createCanvas(640, 360);
-  let posX = 380;
+  let posX = 350;
   let posY = 580;
   canvas.position(posX,posY);
 
