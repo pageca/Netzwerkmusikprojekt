@@ -44,7 +44,7 @@ function preload(){
 
 function setup() {
   let canvas = createCanvas(1280, 720);
-  let posX =830;
+  let posX =380;
   let posY = 550;
   canvas.position(posX,posY);
 
@@ -66,27 +66,27 @@ function setup() {
   drawMode.option('draw',1);
   drawMode.option('rotate',2);
   drawMode.value('1');
-  drawMode.position(posX+820,posY+200);
+  drawMode.position(posX+820 + 480,posY+200);
   drawMode.changed(uiChanged);
  
 
   farbMode = createCheckbox('invert Colors', false);
-  farbMode.position(posX+900,posY+14);
+  farbMode.position(posX+900 + 480,posY+14);
   farbMode.changed(uiChanged);
 
   colorPicker = createColorPicker('#ed225d');
-  colorPicker.position(posX+820,posY+10);
+  colorPicker.position(posX+820 + 480,posY+10);
   colorPicker.changed(uiChanged);
 
   sendButton = createButton('Send');
-  sendButton.position(posX+820,posY+300);
+  sendButton.position(posX+820 + 480,posY+300);
   sendButton.mousePressed(sendOut);
   sendButton.style('background-color', color(18, 161, 87));
   sendButton.style('color', color(186, 247, 216));  
 
 
   resetButton = createButton('Reset');
-  resetButton.position(posX+900,posY+300);
+  resetButton.position(posX+900 + 480,posY+300);
   resetButton.mousePressed(reset);
   resetButton.style('background-color', color(171, 48, 48));
   resetButton.style('color', color(250, 220, 220));  
