@@ -88,7 +88,7 @@ function setup() {
 
 
   resetButton = createButton('Reset');
-  resetButton.position(posX+900-80 + 480,posY+300);
+  resetButton.position(posX+900-80,posY+300);
   resetButton.mousePressed(reset);
   resetButton.style('background-color', color(171, 48, 48));
   resetButton.style('color', color(250, 220, 220));  
