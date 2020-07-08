@@ -446,8 +446,8 @@ function sendOut(){
       let args =[rotation,invertMode,red(colorPicker.value()),green(colorPicker.value()),blue(colorPicker.value())];
       
       for (let i = 0; i < polyVertexes.length; i++) {
-        args.push(polyVertexes[i][0] * sacle);
-        args.push(polyVertexes[i][1] * scale);
+        args.push(polyVertexes[i * sacle][0]);
+        args.push(polyVertexes[i * scale][1]);
       }
       junction.send("/poly",args);
 
