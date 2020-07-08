@@ -59,7 +59,7 @@ function setup() {
   shapeType.option('triangle');
   shapeType.option('polygon');
   shapeType.value('rectangle');
-  shapeType.position(posX+820,posY+100)
+  shapeType.position(posX+820 + 480,posY+100)
   shapeType.changed(uiChanged);
 
   drawMode = createRadio();
