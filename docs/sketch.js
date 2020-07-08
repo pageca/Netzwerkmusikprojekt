@@ -46,8 +46,8 @@ function preload(){
 
 function setup() {
   let canvas = createCanvas(640, 360);
-  let posX = 400;
-  let posY = 550;
+  let posX = 380;
+  let posY = 580;
   canvas.position(posX,posY);
 
   OSCjunction.connect("node-1", connectNodeSuccess, fail);
@@ -88,7 +88,7 @@ function setup() {
 
 
   resetButton = createButton('Reset');
-  resetButton.position(posX+900-80,posY+300);
+  resetButton.position(posX+900-80 + 480,posY+300);
   resetButton.mousePressed(reset);
   resetButton.style('background-color', color(171, 48, 48));
   resetButton.style('color', color(250, 220, 220));  
