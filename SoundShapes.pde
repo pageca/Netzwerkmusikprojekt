@@ -29,7 +29,7 @@ void settings() {
   superCollider = new NetAddress("127.0.0.1", 57120);
   oscJunction = new NetAddress("127.0.0.1", 57140);
   
-  size(800, 400,P3D);
+  size(1280, 720,P3D);
   //textureMode(NORMAL);
   
 
@@ -48,7 +48,7 @@ void setup() {
   for (int x = 0; x < width; x++) {
     for (int y = 0; y < height; y++) {
       int loc = x + y * width;
-      pixels[loc] = color(x/6, y/2, x/4);
+      pixels[loc] = color(x/6, y/3, x/4);
     }
   }
 
