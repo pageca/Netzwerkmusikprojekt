@@ -376,6 +376,12 @@ function sendOut(){
 
 }
 
+function keyPressed(){
+  if (keyCode === ENTER) {
+		sendOut();
+  }
+}
+
 function reset(){
 
   polyVertexes = [];
