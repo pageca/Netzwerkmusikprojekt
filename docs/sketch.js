@@ -62,7 +62,6 @@ function setup() {
   shapeType.option('triangle');
   shapeType.option('polygon');
   shapeType.value('rectangle');
-  shapeType.position(posX+820-80,posY+100)
   shapeType.parent(document.getElementById('shapeType'));
   //shapeType.position(0,0);
   shapeType.changed(uiChanged);
