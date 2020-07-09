@@ -46,9 +46,6 @@ function preload(){
 
 function setup() {
   let canvas = createCanvas(640, 360);
-  let posX = 380;
-  let posY = 580;
-  //canvas.position(posX,posY);
   canvas.parent(document.getElementById('canvasDiv'));
 
   OSCjunction.connect("node-1", connectNodeSuccess, fail);
@@ -63,7 +60,6 @@ function setup() {
   shapeType.option('polygon');
   shapeType.value('rectangle');
   shapeType.parent(document.getElementById('shapeType'));
-  //shapeType.position(0,0);
   shapeType.changed(uiChanged);
 
   drawMode = createRadio();
@@ -71,23 +67,19 @@ function setup() {
   drawMode.option('rotate',2);
   drawMode.value('1');
   drawMode.parent(document.getElementById('drawMode'));
-  //drawMode.position(posX+820,posY+200);
   drawMode.changed(uiChanged);
  
 
   farbMode = createCheckbox('invert Colors', false);
   farbMode.parent(document.getElementById('farbMode'));
-  //farbMode.position(posX+900-80,posY+14);
   farbMode.changed(uiChanged);
 
   colorPicker = createColorPicker('#ed225d');
   colorPicker.parent(document.getElementById('colorPicker'));
-  //colorPicker.position(posX+820-80,posY+10);
   colorPicker.changed(uiChanged);
 
   sendButton = createButton('Send');
   sendButton.parent(document.getElementById('sendButton'));
-  //sendButton.position(posX+820-80,posY+300);
   sendButton.size(110,40);
   sendButton.mousePressed(sendOut);
   sendButton.style('background-color', color(18, 161, 87));
@@ -97,7 +89,6 @@ function setup() {
 
   resetButton = createButton('Reset');
   resetButton.parent(document.getElementById('resetButton'));
-  //resetButton.position(posX+900-80 + 480,posY+300);
   resetButton.size(55,20);
   resetButton.mousePressed(reset);
   resetButton.style('background-color', color(171, 48, 48));
