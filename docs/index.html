@@ -8,25 +8,29 @@
       body {background-color: rgb(0, 0, 15);
             color: rgb(163, 241, 255);
             font-family: Arial, Helvetica, sans-serif;}
-      div.sidetext{  
 
-        margin-top: -380px;
-        margin-left: 140px;
-        width: 600px;
+      div.sidetext{  
+        margin-top: -3px;
+        float: right;
+        width: 650px;
         
         font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         font-size:14px;
         }
       div.outer{
-        width: 1px;
+        width: 1350px;
         margin: auto;
-        background: crimson;
 
       }
       div.canvas{
-        margin-left: -600px;
+        float:left;
         margin-top: 40px;
 
+      }
+      div.userOpts{
+        float: right;
+        width: 650px;
+        margin-top: 40px;
       }
     </style>
 
@@ -51,7 +55,7 @@
 
     <div class='outer'>
       <iframe 
-        style="border:2px solid rgb(163, 241, 255);margin-left: -600px; margin-top:15px;"
+        style="border:2px solid rgb(163, 241, 255);float:left; margin-top:15px;"
         width="640" 
         height="360" 
         src="https://www.youtube.com/embed/1jfYL3xRHs0" 
@@ -67,7 +71,7 @@
           entstehende Klang. Also zeigt eure künstlerische Begabung und schafft zusammen ein Klang-Bild!</p>
           
         <p>Mit den Optionen auf der rechten Seite kann jeweils eine Shape gezeichnet werden.<br>
-          Ist <i>"invert Colors"</i> aktiviert, werden die Farben des Hintergrunds innerhalb der Shape invertiert, statt diese mit einer deckenden Farbe zu füllen. (erst im Live-Stream sichtbar)<br>
+          Ist <i>"invert Colors"</i> aktiviert, werden die Farben des Hintergrunds innerhalb der Shape invertiert, statt diese mit einer deckenden Farbe zu füllen. (erst im Live-Stream sichtbar).<br>
           Ist man dann zufrieden mit der Shape, kann sie mit dem <i>Send</i>-Button versendet werden und sollte innerhalb weniger Sekunden im Livestream erscheinen.<br>
           Hat man sich doch vermalt, kann die Leinwand mit dem <i>Reset</i>-Button geleert werden.
         </p>
@@ -79,8 +83,22 @@
       </div>
 
 
-      <div id='canvasDiv' class='canvas'>
+      <div id='canvasDiv' class='canvas'> </div>
+      <div id = 'userOptDiv' class='userOpts'>
 
+        <div id = 'farbMode' style="margin-right : 380px; float:right"></div>
+        <div id = 'colorPicker' ></div>
+
+
+        <div id = 'shapeType' style="margin-top : 80px;"></div>
+        <div id = 'drawMode' style="margin-top : 40px;"></div>
+
+        <div style="margin-top :80px;">
+          <div id = 'resetButton' style = "margin-top :5px; margin-right : 380px; float:right"></div>
+          <div id = 'sendButton' ></div>
+        </div>
+
+        
 
       </div>
 

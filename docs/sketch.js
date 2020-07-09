@@ -63,27 +63,33 @@ function setup() {
   shapeType.option('polygon');
   shapeType.value('rectangle');
   shapeType.position(posX+820-80,posY+100)
+  shapeType.parent(document.getElementById('shapeType'));
+  //shapeType.position(0,0);
   shapeType.changed(uiChanged);
 
   drawMode = createRadio();
   drawMode.option('draw',1);
   drawMode.option('rotate',2);
   drawMode.value('1');
-  drawMode.position(posX+820,posY+200);
+  drawMode.parent(document.getElementById('drawMode'));
+  //drawMode.position(posX+820,posY+200);
   drawMode.changed(uiChanged);
  
 
   farbMode = createCheckbox('invert Colors', false);
-  farbMode.position(posX+900-80,posY+14);
+  farbMode.parent(document.getElementById('farbMode'));
+  //farbMode.position(posX+900-80,posY+14);
   farbMode.changed(uiChanged);
 
   colorPicker = createColorPicker('#ed225d');
-  colorPicker.position(posX+820-80,posY+10);
+  colorPicker.parent(document.getElementById('colorPicker'));
+  //colorPicker.position(posX+820-80,posY+10);
   colorPicker.changed(uiChanged);
 
   sendButton = createButton('Send');
-  sendButton.position(posX+820-80,posY+300);
-  sendButton.size(100,30);
+  sendButton.parent(document.getElementById('sendButton'));
+  //sendButton.position(posX+820-80,posY+300);
+  sendButton.size(110,40);
   sendButton.mousePressed(sendOut);
   sendButton.style('background-color', color(18, 161, 87));
   sendButton.style('color', color(186, 247, 216));  
@@ -91,7 +97,9 @@ function setup() {
 
 
   resetButton = createButton('Reset');
-  resetButton.position(posX+900-80 + 480,posY+300);
+  resetButton.parent(document.getElementById('resetButton'));
+  //resetButton.position(posX+900-80 + 480,posY+300);
+  resetButton.size(55,20);
   resetButton.mousePressed(reset);
   resetButton.style('background-color', color(171, 48, 48));
   resetButton.style('color', color(250, 220, 220));  
