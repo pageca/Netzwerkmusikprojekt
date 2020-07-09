@@ -109,7 +109,7 @@ function draw() {
 
   fill(colorPicker.color());
 
-  maxSize = 50;
+  maxSize = 80;
 
   debugText ="";
   
