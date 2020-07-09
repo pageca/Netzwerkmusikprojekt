@@ -9,15 +9,25 @@
             color: rgb(163, 241, 255);
             font-family: Arial, Helvetica, sans-serif;}
       div.sidetext{  
-        position: absolute;
-        top: 110px;
-        left: 1100px;
+
+        margin-top: -380px;
+        margin-left: 140px;
         width: 600px;
-        height: 400px;
         
         font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         font-size:14px;
         }
+      div.outer{
+        width: 1px;
+        margin: auto;
+        background: crimson;
+
+      }
+      div.canvas{
+        margin-left: -600px;
+        margin-top: 40px;
+
+      }
     </style>
 
     <title>SoundShapes</title>
@@ -39,31 +49,40 @@
     <h1 style="text-align:center">SoundShapes</h1>
     <h3 style="text-align:center">Ein Projekt von Patrick Carroll, Otto Hochbaum & Till Metzner <h3>
 
-    <iframe 
-      style="border:2px solid rgb(163, 241, 255); margin-left:370px;"
-      width="640" 
-      height="360" 
-      src="https://www.youtube.com/embed/1jfYL3xRHs0" 
-      allow="autoplay; encrypted-media; picture-in-picture">
-    </iframe>
+    <div class='outer'>
+      <iframe 
+        style="border:2px solid rgb(163, 241, 255);margin-left: -600px; margin-top:15px;"
+        width="640" 
+        height="360" 
+        src="https://www.youtube.com/embed/1jfYL3xRHs0" 
+        allow="autoplay; encrypted-media; picture-in-picture">
+      </iframe>
 
-    <div class='sidetext'>
-      <p>“SoundShapes” ist eine interaktive Installation, bei dem der Zuschauer über diese 
-        Webseite das Bild des Live-Videostreams durch das Hinzufügen von Formen in verschiedenen Farben verändern kann.</p>
-      <p>Über das Bild läuft ein Step-Sequenzer, der Bereiche des Bildes auswählt. Die Farbwerte aus dem 
-        momentanen Bildausschnitt werden per Open Sound Control an SuperCollider gesendet, um aus den Daten Klang zu generieren. </p>
-      <p>Je mehr Zuschauer das Bild bearbeiten, desto lebendiger wird das Bild und dadurch auch der 
-        entstehende Klang. Also zeigt eure künstlerische Begabung und schafft zusammen ein Klang-Bild!</p>
-        
-      <p>Mit den Optionen auf der rechten Seite kann jeweils ein Shape gezeichnet werden.<br>
-        Ist <i>"invert Colors"</i> aktiviert, werden die Farben des Hintergrunds innerhalb der Shape invertiert, statt diese mit einer deckenden Farbe zu füllen. (erst im Live-Stream sichtbar)<br>
-        Ist man dann zufrieden mit der Shape, kann sie mit dem <i>Send</i>-Button versendet werden und sollte innerhalb weniger Sekunden im Livestream erscheinen.<br>
-        Hat man sich doch vermalt, kann die Leinwand mit dem <i>Reset</i>-Button geleert werden.
-      </p>
-      <p>
-        Entstanden an der Hochschule für Musik Karlsruhe unter der Leitung von Patrick Borgeat </p>
-        </p> Copyright IMWI HfM Karlsruhe
-      </p>
+      <div class='sidetext'>
+        <p>“SoundShapes” ist eine interaktive Installation, bei dem der Zuschauer über diese 
+          Webseite das Bild des Live-Videostreams durch das Hinzufügen von Formen in verschiedenen Farben verändern kann.</p>
+        <p>Über das Bild läuft ein Step-Sequenzer, der Bereiche des Bildes auswählt. Die Farbwerte aus dem 
+          momentanen Bildausschnitt werden per Open Sound Control an SuperCollider gesendet, um aus den Daten Klang zu generieren. </p>
+        <p>Je mehr Zuschauer das Bild bearbeiten, desto lebendiger wird das Bild und dadurch auch der 
+          entstehende Klang. Also zeigt eure künstlerische Begabung und schafft zusammen ein Klang-Bild!</p>
+          
+        <p>Mit den Optionen auf der rechten Seite kann jeweils eine Shape gezeichnet werden.<br>
+          Ist <i>"invert Colors"</i> aktiviert, werden die Farben des Hintergrunds innerhalb der Shape invertiert, statt diese mit einer deckenden Farbe zu füllen. (erst im Live-Stream sichtbar)<br>
+          Ist man dann zufrieden mit der Shape, kann sie mit dem <i>Send</i>-Button versendet werden und sollte innerhalb weniger Sekunden im Livestream erscheinen.<br>
+          Hat man sich doch vermalt, kann die Leinwand mit dem <i>Reset</i>-Button geleert werden.
+        </p>
+        <p>
+          Entstanden an der Hochschule für Musik Karlsruhe unter der Leitung von Patrick Borgeat. </p>
+          <p> Copyright IMWI HfM Karlsruhe
+        </p>
+
+      </div>
+
+
+      <div id='canvasDiv' class='canvas'>
+
+
+      </div>
 
     </div>
 
